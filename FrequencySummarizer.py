@@ -14,7 +14,7 @@ class FrequencySummarizer:
     """
     self._min_cut = min_cut
     self._max_cut = max_cut
-    self._stopwords = set(stopwords.words('russian') + list(punctuation))
+    self._stopwords = set(stopwords.words('english') + list(punctuation))
 
   def _compute_frequencies(self, word_sent):
     """
@@ -58,8 +58,8 @@ class FrequencySummarizer:
     """ return the first n sentences with highest ranking """
     return nlargest(n, ranking, key=ranking.get)
 
-text = open('C:\myfile.txt', 'r')
-fs = FrequencySummarizer()
-for s in fs.summarize(text.read(), 10):
-    print('*', s)
+# text = open('C:\myfile.txt', 'r')
+# fs = FrequencySummarizer()
+# for s in fs.summarize(text.read(), 10):
+#     print('*', s)
 
