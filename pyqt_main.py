@@ -16,7 +16,7 @@ import ui_MyForm
 
 #Summ
 import FrequencySummarizer
-import TextRank
+import TextRank_Test
 
 class MainWindow(QMainWindow, ui_MyForm.Ui_MainWindow):
     """MainWindow inherits QMainWindow"""
@@ -34,17 +34,18 @@ class MainWindow(QMainWindow, ui_MyForm.Ui_MainWindow):
              n = 1
         summ_text = ''
         if self.radioButton.isChecked():
-            fs = FrequencySummarizer.FrequencySummarizer()
+            fs = FrequencySummarizer.SimpleFrequencySummarizer()
             summ_text = fs.summarize(text, n)
         elif self.radioButton_2.isChecked():
-            reduction = TextRank.Reduction()
-            summ_text = reduction.reduce(text, self.horizontalSlider.value() / 100)
+            text1 = TextRank_Test.extractSentences(text)
+            # reduction = TextRank.Reduction()
+            # summ_text = reduction.reduce(text, self.horizontalSlider.value() / 100)
         self.textEdit_2.clear()
-        text1 = ''
-        for s in summ_text:
-            text1 = text1 + s
+        # text1 = ''
         # for s in summ_text:
-        #     self.textEdit_2.text
+        #     text1 = text1 + s
+        # # for s in summ_text:
+        # #     self.textEdit_2.text
         self.textEdit_2.setText(text1)
 # -----------------------------------------------------#
 if __name__ == '__main__':

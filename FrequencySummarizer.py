@@ -5,32 +5,28 @@ from collections import defaultdict
 from string import punctuation
 from heapq import nlargest
 
-class FrequencySummarizer:
+class SimpleFrequencySummarizer:
   def __init__(self, min_cut=0.1, max_cut=0.9):
-    """
-     Initilize the text summarizer.
-     Words that have a frequency term lower than min_cut
-     or higer than max_cut will be ignored.
-    """
     self._min_cut = min_cut
     self._max_cut = max_cut
     self._stopwords = set(stopwords.words('english') + list(punctuation))
 
   def _compute_frequencies(self, word_sent):
     """
-      Compute the frequency of each of word.
-      Input:
-       word_sent, a list of sentences already tokenized.
-      Output:
-       freq, a dictionary where freq[w] is the frequency of w.
+        Подсчитываем частоту каждого слова
     """
     freq = defaultdict(int)
     for s in word_sent:
       for word in s:
         if word not in self._stopwords:
           freq[word] += 1
-    # frequencies normalization and fitering
+    # Частотная нормализация
+    """
+        Данную формулу можно модифицировать:
+            Tf-idf
+    """
     m = float(max(freq.values()))
+
     for w in list(freq):
       freq[w] = freq[w]/m
       if freq[w] >= self._max_cut or freq[w] <= self._min_cut:
@@ -39,8 +35,7 @@ class FrequencySummarizer:
 
   def summarize(self, text, n):
     """
-      Return a list of n sentences
-      which represent the summary of text.
+      Формируем текст из списка предложений
     """
     sents = sent_tokenize(text)
     assert n <= len(sents)
@@ -55,11 +50,9 @@ class FrequencySummarizer:
     return [sents[j] for j in sents_idx]
 
   def _rank(self, ranking, n):
-    """ return the first n sentences with highest ranking """
+    """
+        Возвращаем n предложений с наивысшим ранжированием
+    """
     return nlargest(n, ranking, key=ranking.get)
 
-# text = open('C:\myfile.txt', 'r')
-# fs = FrequencySummarizer()
-# for s in fs.summarize(text.read(), 10):
-#     print('*', s)
 
