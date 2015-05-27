@@ -1,0 +1,19 @@
+# -*- coding: utf-8 -*-
+
+def replaceToSynonym(sub):
+    f = open('C:\\Users\\Maxim\\Documents\\test.txt')
+    str = f.read().splitlines()
+    str = ''.join(str)
+    str = str.split('|')
+
+    idx = str.index(sub)
+
+    if not str[idx + 1][0].isdigit():
+        return str[idx + 1].replace('(сходный термин)', '') #удалить антоним и синоним
+    elif not str[idx - 1][0].isdigit():
+        return str[idx - 1].replace('(сходный термин)', '')
+
+    return str[idx].replace('(сходный термин)', '')
+
+print(replaceToSynonym('омерзение'))
+
